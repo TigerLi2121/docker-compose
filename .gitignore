@@ -1,0 +1,10 @@
+monitor/prometheus/data
+monitor/grafana/grafana.db
+monitor/grafana/png
+monitor/node_exporter
+
+redis/data
+
+nacos/logs
+
+elk/elasticsearch

@@ -1,0 +1,1 @@
+docker build -t sentinel:1.8.2 .

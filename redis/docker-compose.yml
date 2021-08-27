@@ -1,0 +1,20 @@
+version: '2'
+services:
+  # 主节点的容器
+  redis-server:
+    image: redis:6.2.5
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    environment:
+      TZ: "Asia/Shanghai"
+    volumes:
+      # 映射配置文件和数据目录
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - ./data:/data
+    sysctls:
+      # 必要的内核参数
+      net.core.somaxconn: '511'
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+  
