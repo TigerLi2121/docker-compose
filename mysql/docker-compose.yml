@@ -3,13 +3,17 @@ version: '3.1'
 services:
   mysql:
     image: mysql:5.7.22
-    container_name: mysql1
+    container_name: mysql
     ports:
-      - 3316:3306
+      - 3306:3306
+    privileged: true
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root@admin
     volumes:
-      - /home/mysql/mysql1:/var/lib/mysql
+      - ./log:/var/log/mysql
+      - ./conf/my.cnf:/etc/mysql/my.cnf
+      - ./data:/var/lib/mysql
     command:
       - '--character-set-server=utf8mb4'
       - '--collation-server=utf8mb4_general_ci'
+      - '--max_connections=3000'
