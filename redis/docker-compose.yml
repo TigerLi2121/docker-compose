@@ -1,4 +1,4 @@
-version: '2'
+version: '3.8'
 services:
   # 主节点的容器
   redis-server:
@@ -7,6 +7,7 @@ services:
     restart: always
     ports:
       - 6379:6379
+    privileged: true
     environment:
       TZ: "Asia/Shanghai"
     volumes:
@@ -16,5 +17,5 @@ services:
     sysctls:
       # 必要的内核参数
       net.core.somaxconn: '511'
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    command: redis-server /etc/redis/redis.conf --appendonly yes
   
