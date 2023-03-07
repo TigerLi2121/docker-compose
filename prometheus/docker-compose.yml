@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    user: root
+    ports:
+      - '9090:9090'
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus/data'
+      - '--storage.tsdb.retention=90d'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - ./prometheus/data:/prometheus/data
