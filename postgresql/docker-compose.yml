@@ -1,8 +1,8 @@
-version: '3.1'
+version: '3.8'
 
 services:
   postgresql:
-    image: postgres:12-alpine
+    image: postgres:13-alpine
     container_name: postgresql
     ports:
       - 5432:5432
@@ -10,5 +10,6 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+      TZ: "Asia/Shanghai"
     volumes:
       - ./data:/var/lib/postgresql/data
