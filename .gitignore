@@ -8,3 +8,5 @@ redis/data
 nacos/logs
 
 elk/elasticsearch
+
+postgresql/data
