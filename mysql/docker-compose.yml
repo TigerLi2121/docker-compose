@@ -9,6 +9,7 @@ services:
     privileged: true
     environment:
       MYSQL_ROOT_PASSWORD: root@admin
+      TZ: "Asia/Shanghai"
     volumes:
       - ./log:/var/log/mysql
       - ./conf/my.cnf:/etc/mysql/my.cnf
