@@ -4,6 +4,7 @@ monitor/grafana/png
 monitor/node_exporter
 
 redis/data
+mysql/data
 
 nacos/logs
 
