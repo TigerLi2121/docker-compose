@@ -4,11 +4,12 @@ services:
   mysql:
     image: mysql:5.7.22
     container_name: mysql_5.7.22
+    restart: always
     ports:
       - 3306:3306
     privileged: true
     environment:
-      MYSQL_ROOT_PASSWORD: root@admin
+      MYSQL_ROOT_PASSWORD: root
       TZ: "Asia/Shanghai"
     volumes:
       - ./log:/var/log/mysql
