@@ -1,46 +1,56 @@
 version: '3.3'
 services:
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.1
-    container_name: elasticsearch
+  es8:
+    image: elasticsearch:8.4.2
+    container_name: es8
     restart: always
     ports:
       - 9200:9200
       - 9300:9300
     environment:
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - discovery.type=single-node  #单例模式
+      - ingest.geoip.downloader.enabled=false
+      - bootstrap.memory_lock=true #锁定物理内存地址，防止es内存被交换出去，也就是避免es使用swap交换分区，频繁的交换，会导致IOPS变高
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx2048m"
       - TZ=Asia/Shanghai
     ulimits:
       memlock:
         soft: -1
         hard: -1
-  oap:
-    image: apache/skywalking-oap-server:6.2.0
-    container_name: oap
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+  skywalking-oap:
+    image: apache/skywalking-oap-server:9.5.0
+    container_name: skywalking-oap
     depends_on:
-      - elasticsearch
+      - es8
     links:
-      - elasticsearch
+      - es8
     restart: always
     ports:
       - 11800:11800
       - 12800:12800
     environment:
+      SW_CORE_RECORD_DATA_TTL: 7 #记录数据的有效期，单位天
+      SW_CORE_METRICS_DATA_TTL: 7 #分析指标数据的有效期，单位天
+      SW_ENABLE_UPDATE_UI_TEMPLATE: "true" # 开启dashboard编辑修改功能
+      SW_HEALTH_CHECKER: default
       SW_STORAGE: elasticsearch
-      SW_STORAGE_ES_CLUSTER_NODES: elasticsearch:9200
+      SW_STORAGE_ES_CLUSTER_NODES: es8:9200
       TZ: Asia/Shanghai
-  ui:
-    image: apache/skywalking-ui:6.2.0
-    container_name: ui
+      JAVA_OPTS: "-Xms1024m -Xmx2048m"
+  skywalking-ui:
+    image: apache/skywalking-ui:9.5.0
+    container_name: skywalking-ui
     depends_on:
-      - oap
+      - skywalking-oap
     links:
-      - oap
+      - skywalking-oap
     restart: always
     ports:
       - 8180:8080
     environment:
-      SW_OAP_ADDRESS: oap:12800
+      SW_HEALTH_CHECKER: default
+      SW_OAP_ADDRESS: http://skywalking-oap:12800
       TZ: Asia/Shanghai

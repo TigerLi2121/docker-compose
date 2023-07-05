@@ -10,4 +10,6 @@ nacos/logs
 
 elk/elasticsearch
 
+skywalking/elasticsearch
+
 postgresql/data
