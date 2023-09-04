@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  consul:
+    image: consul
+    container_name: consul
+    restart: always
+    ports:
+      - 8600:8600
+      - 8500:8500
+      - 8300:8300
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+    command: agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0
+  
