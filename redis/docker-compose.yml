@@ -1,8 +1,7 @@
-version: '3.8'
 services:
   # 主节点的容器
   redis-server:
-    image: redis:6.2.5
+    image: redis:6.2.6
     container_name: redis
     restart: always
     ports:
