@@ -6,6 +6,8 @@ monitor/node_exporter
 redis/data
 mysql/data
 
+mysql-arm/data
+
 nacos/logs
 nacos/data
 
